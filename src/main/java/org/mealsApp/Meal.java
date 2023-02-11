@@ -1,4 +1,4 @@
-package org.example;
+package org.mealsApp;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
