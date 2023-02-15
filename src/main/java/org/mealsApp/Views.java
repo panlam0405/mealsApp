@@ -5,13 +5,13 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "Meal")
+@Table(name = "Views")
 @NamedQueries({
 
-        @NamedQuery(name = "Meal.findByMeal", query = "SELECT m FROM Meal m WHERE m.meal = :meal")
-        })
+        @NamedQuery(name = "Views.findByMeal", query = "SELECT v FROM Views v WHERE v.views = :views")
+})
 
-public class Meal implements Serializable {
+public class Views implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,26 +22,20 @@ public class Meal implements Serializable {
     @Basic(optional = false)
     @Column(name = "MEAL",unique = true)
     private String meal;
-    @Column(name = "CATEGORY")
-    private String category;
-    @Column(name = "AREA")
-    private String area;
-    @Lob
-    @Column(name = "INSTRUCTIONS")
-    private String instructions;
-
-
-    public Meal() {
+    @Column(name = "VIEWS")
+    private Integer views;
+    public Views() {
     }
 
-    public Meal(Integer id) {
+    public Views(Integer id) {
         this.id = id;
     }
 
-    public Meal(Integer id, String meal) {
-        this.id = id;
-        this.meal = meal;
+    public Integer getViews() {
+        return views;
     }
+
+
 
     public Integer getId() {
         return id;
@@ -59,30 +53,14 @@ public class Meal implements Serializable {
         this.meal = meal;
     }
 
-    public String getCategory() {
-        return category;
+    public void setViews(Integer views) {
+        this.views = views;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public Views(Integer id, String meal) {
+        this.id = id;
+        this.meal = meal;
     }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
 
 
     @Override
@@ -95,10 +73,10 @@ public class Meal implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Meal)) {
+        if (!(object instanceof Views)) {
             return false;
         }
-        Meal other = (Meal) object;
+        Views other = (Views) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -109,9 +87,7 @@ public class Meal implements Serializable {
     public String toString() {
         return "ID: "+id+"\n"
                 +"Meal: "+meal+"\n"
-                +"Category: "+category+"\n"
-                +"Area: "+area+"\n"
-                +"Instructions: "+instructions+"\n"
+                +"Views: "+views+"\n"
                 +"-----------------------------------------------------";
     }
 
