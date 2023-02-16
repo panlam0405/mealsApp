@@ -9,3 +9,5 @@
 /vcs.xml
 /misc.xml
 /target/
+../mealsAppDB/
+../derby.log

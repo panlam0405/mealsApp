@@ -1,15 +1,15 @@
 package org.mealsApp;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 
 @Entity
 @Table(name = "Meal")
 @NamedQueries({
-
         @NamedQuery(name = "Meal.findByMeal", query = "SELECT m FROM Meal m WHERE m.meal = :meal")
-        })
+})
 
 public class Meal implements Serializable {
 
@@ -20,7 +20,7 @@ public class Meal implements Serializable {
     @SequenceGenerator(name = "my_seq_gen", sequenceName = "my_sequence", allocationSize = 1)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "MEAL",unique = true)
+    @Column(name = "MEAL")
     private String meal;
     @Column(name = "CATEGORY")
     private String category;
@@ -83,6 +83,20 @@ public class Meal implements Serializable {
         this.instructions = instructions;
     }
 
+    public void setDataBaseNewInsert (String mealName, String categoryName, String areaName, String Instrunctions) {
+        setMeal(mealName);
+        setCategory(categoryName);
+        setArea(areaName);
+        setInstructions(Instrunctions);
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(this);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+    }
 
 
     @Override
@@ -107,12 +121,12 @@ public class Meal implements Serializable {
 
     @Override
     public String toString() {
-        return "ID: "+id+"\n"
-                +"Meal: "+meal+"\n"
-                +"Category: "+category+"\n"
-                +"Area: "+area+"\n"
-                +"Instructions: "+instructions+"\n"
-                +"-----------------------------------------------------";
+        return "ID: " + id + "\n"
+                + "Meal: " + meal + "\n"
+                + "Category: " + category + "\n"
+                + "Area: " + area + "\n"
+                + "Instructions: " + instructions + "\n"
+                + "-----------------------------------------------------";
     }
 
 }
