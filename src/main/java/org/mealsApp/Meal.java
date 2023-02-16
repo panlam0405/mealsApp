@@ -88,12 +88,45 @@ public class Meal implements Serializable {
         setCategory(categoryName);
         setArea(areaName);
         setInstructions(Instrunctions);
-        
+        System.setProperty("derby.language.sequence.preallocator", "1");
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(this);
         em.getTransaction().commit();
+        em.close();
+        emf.close();
+    }
+
+    public void getDatafromDatabase (String mealName){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
+
+        Query selectMeal = em.createNamedQuery("Meal.findByMeal",Meal.class);
+        selectMeal.setParameter("meal",mealName);
+        Meal meal = (Meal) selectMeal.getSingleResult();
+
+        em.getTransaction().begin();
+        em.persist(meal);
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();
+    }
+
+    public void deleteFromDatabase (String mealName) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        Query selectMeal = em.createNamedQuery("Meal.findByMeal", Meal.class);
+        selectMeal.setParameter("meal",mealName);
+        Meal m = (Meal) selectMeal.getSingleResult();
+        em.remove(m);
+        em.getTransaction().commit();
+
         em.close();
         emf.close();
     }

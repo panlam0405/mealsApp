@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         Meal meal = new Meal();
-        meal.setDataBaseNewInsert("acghscgdσδsfas", "sgdf", "asfa", "asfa");
+        meal.setDataBaseNewInsert("δσσhsder", "sgerf", "asherfa", "asfa");
 
 
         //        meal.setMeal("Beef");
