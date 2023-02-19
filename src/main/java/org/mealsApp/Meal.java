@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Table(name = "Meal")
 @NamedQueries({
         @NamedQuery(name = "Meal.findByMeal", query = "SELECT m FROM Meal m WHERE m.meal = :meal")
+
 })
 
 public class Meal implements Serializable {
@@ -83,54 +84,21 @@ public class Meal implements Serializable {
         this.instructions = instructions;
     }
 
-    public void setDataBaseNewInsert (String mealName, String categoryName, String areaName, String Instrunctions) {
-        setMeal(mealName);
-        setCategory(categoryName);
-        setArea(areaName);
-        setInstructions(Instrunctions);
-        System.setProperty("derby.language.sequence.preallocator", "1");
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(this);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    public Meal getDatafromDatabase (String mealName){
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+            EntityManager em = emf.createEntityManager();
+
+            Query selectMeal = em.createNamedQuery("Meal.findByMeal", Meal.class);
+            selectMeal.setParameter("meal", mealName);
+            return (Meal) selectMeal.getSingleResult();
+
+
+        } catch (NoResultException e) {
+            return null;
+        }
     }
-
-    public void getDatafromDatabase (String mealName){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = emf.createEntityManager();
-
-        Query selectMeal = em.createNamedQuery("Meal.findByMeal",Meal.class);
-        selectMeal.setParameter("meal",mealName);
-        Meal meal = (Meal) selectMeal.getSingleResult();
-
-        em.getTransaction().begin();
-        em.persist(meal);
-        em.getTransaction().commit();
-
-        em.close();
-        emf.close();
-    }
-
-    public void deleteFromDatabase (String mealName) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
-        Query selectMeal = em.createNamedQuery("Meal.findByMeal", Meal.class);
-        selectMeal.setParameter("meal",mealName);
-        Meal m = (Meal) selectMeal.getSingleResult();
-        em.remove(m);
-        em.getTransaction().commit();
-
-        em.close();
-        emf.close();
-    }
-
 
     @Override
     public int hashCode() {
@@ -151,7 +119,6 @@ public class Meal implements Serializable {
         }
         return true;
     }
-
     @Override
     public String toString() {
         return "ID: " + id + "\n"

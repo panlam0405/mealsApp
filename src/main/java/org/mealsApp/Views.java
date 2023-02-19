@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Table(name = "Views")
 @NamedQueries({
 
-        @NamedQuery(name = "Views.findByMeal", query = "SELECT v FROM Views v WHERE v.views = :views")
+        @NamedQuery(name = "Views.findByMeal", query = "SELECT v FROM Views v WHERE v.meal = :meal")
 })
 
 public class Views implements Serializable {
@@ -62,6 +62,34 @@ public class Views implements Serializable {
         this.meal = meal;
     }
 
+    public Views getDatafromDatabase (String mealName){
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+            EntityManager em = emf.createEntityManager();
+
+            Query selectMeal = em.createNamedQuery("Views.findByMeal", Views.class);
+            selectMeal.setParameter("meal", mealName);
+            Views view = (Views) selectMeal.getSingleResult();
+
+            return view;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public void setDataBaseNewInsert (String mealName) {
+        setMeal(mealName);
+        setViews(this.views == null ? 1 : this.views + 1);
+
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(this);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+    }
 
     @Override
     public int hashCode() {

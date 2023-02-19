@@ -15,9 +15,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        Meal meal = new Meal();
-        meal.setDataBaseNewInsert("δσσhsder", "sgerf", "asherfa", "asfa");
-
 
         //        meal.setMeal("Beef");
 //        meal.setCategory("Meat");
@@ -33,10 +30,9 @@ public class Main {
 //        em.close();
 //        emf.close();
 //        System.out.println("Done");
-
-//        GUI gui = new GUI("Meals App");
-//        gui.Simple();
+        System.setProperty("derby.language.sequence.preallocator", "1");
+        GUI gui = new GUI("Meals App");
+        gui.Simple();
     }
-
 
 }
