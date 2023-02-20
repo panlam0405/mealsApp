@@ -109,7 +109,7 @@ public class ektypwshStatistikwn extends JPanel{
 
                      //Create OutputStream instance.
                      OutputStream outputStream =
-                             new FileOutputStream(System.getProperty("user.dir"));
+                             new FileOutputStream(new File("D:\\tf.pdf"));
 
                      //Create PDFWriter instance.
                      PdfWriter.getInstance(document, outputStream);
@@ -147,6 +147,8 @@ public class ektypwshStatistikwn extends JPanel{
                      outputStream.close();
 
                      System.out.println("Pdf created successfully.");
+                 } catch (NullPointerException exception){
+                     exception.printStackTrace();
                  } catch (Exception ex) {
                      ex.printStackTrace();
                  }
