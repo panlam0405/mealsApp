@@ -32,7 +32,6 @@ public class ektypwshStatistikwn extends JPanel{
     public ektypwshStatistikwn(JTabbedPane tabbedPane) {
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.tabbedPane = tabbedPane;
-        setOpaque(false);
     }
     public void removePanel(){
         tabbedPane.remove(this);
@@ -60,20 +59,39 @@ public class ektypwshStatistikwn extends JPanel{
         em.getTransaction().commit();
         em.close();
         emf.close();
+
         JFreeChart chart = ChartFactory.createBarChart("Στατιστικά Αναζητήσεων", "Όναμα Γέυματος", "Πλήθος Αναζητήσεων", categoryDataset);
 
         CategoryPlot p = chart.getCategoryPlot();
         p.setRangeGridlinePaint(Color.BLACK);
         ChartPanel cp = new ChartPanel(chart);
 
-        tabbedPane.add("Στατιστικά Αναζητήσεων", cp);
+        JPanel container = new JPanel();
+        container.setLayout(new BorderLayout());
+        container.setBounds(0,0,900,900);
+        JPanel chartPanel = new JPanel();
+        chartPanel.setBounds(0,0,900,850);
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBounds(0,850,900,50);
+//        chartPanel.setSize(500,500);
+
+        tabbedPane.add("Στατιστικά Αναζητήσεων", container);
+        container.add(chartPanel);
+        chartPanel.add(cp);
+
+        chartPanel.setPreferredSize(new Dimension(800,800));
+        container.add(buttonsPanel,BorderLayout.SOUTH);
         tabbedPane.setVisible(true);
 
 
          JButton pdfButton = new JButton("ΕΚΤΥΠΩΣΗ ΣΤΑΤΙΣΤΙΚΩΝ");
-         pdfButton.setBounds(440, 100, 200, 30);
-         add(pdfButton);
+
+         buttonsPanel.add(pdfButton);
+
          JButton closeButton = new JButton("Close");
+
+         buttonsPanel.add(closeButton);
+
          closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +99,6 @@ public class ektypwshStatistikwn extends JPanel{
             }
         });
 
-        closeButton.setBounds(100, 850, 100, 30);
 
          pdfButton.addActionListener(new ActionListener() {
              @Override
@@ -92,7 +109,7 @@ public class ektypwshStatistikwn extends JPanel{
 
                      //Create OutputStream instance.
                      OutputStream outputStream =
-                             new FileOutputStream(new File("D:\\TestFile.pdf"));
+                             new FileOutputStream(System.getProperty("user.dir"));
 
                      //Create PDFWriter instance.
                      PdfWriter.getInstance(document, outputStream);
