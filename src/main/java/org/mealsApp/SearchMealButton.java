@@ -212,27 +212,8 @@ public class SearchMealButton extends JPanel {
                         Modify.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                JFrame jf = new JFrame();
-
-                                jf.setVisible(true);
-                                jf.setSize(500, 200);
-
-                                JTextField jtextMealName = new JTextField();
-                                jp.add(jtextMealName);
-                                jtextMealName.setBounds(50, 10, 150, 30);
-                                jtextMealName.setText(finalMealName);
-                                JTextField jtextMealArea = new JTextField();
-                                jp.add(jtextMealArea);
-                                jtextMealArea.setBounds(50, 50, 150, 30);
-                                jtextMealArea.setText(finalMealArea);
-                                JTextField jtextMealInstructions = new JTextField();
-                                jp.add(jtextMealInstructions);
-                                jtextMealInstructions.setBounds(50, 90, 150, 30);
-                                jtextMealInstructions.setText(finalMealInstructions);
-                                JTextField jtextMealCategory = new JTextField();
-                                jp.add(jtextMealCategory);
-                                jtextMealCategory.setBounds(50, 200, 150, 30);
-                                jtextMealCategory.setText(finalMealCategory);
+                                new ModifyPopUpAndConfirmation(finalMealName,finalMealArea,
+                                        finalMealCategory,finalMealInstructions);
                             }
                         });
 
