@@ -24,14 +24,15 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ektypwshStatistikwn extends JPanel{
-    private JPanel jp;
 
     private JTabbedPane tabbedPane;
 
 
     public ektypwshStatistikwn(JTabbedPane tabbedPane) {
-        super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.tabbedPane = tabbedPane;
+        setBackground(new Color(83, 83, 83));
+        setLayout(new BorderLayout());
+
     }
     public void removePanel(){
         tabbedPane.remove(this);
@@ -67,37 +68,35 @@ public class ektypwshStatistikwn extends JPanel{
         ChartPanel cp = new ChartPanel(chart);
 
         JPanel container = new JPanel();
-        container.setLayout(new BorderLayout());
-        container.setBounds(0,0,900,900);
-        JPanel chartPanel = new JPanel();
-        chartPanel.setBounds(0,0,900,850);
         JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setBounds(0,850,900,50);
+
+        add(container,BorderLayout.CENTER);
+        container.setBounds(0,0,900,850);
+
+
+
 //        chartPanel.setSize(500,500);
 
-        tabbedPane.add("Στατιστικά Αναζητήσεων", container);
-        container.add(chartPanel);
-        chartPanel.add(cp);
 
-        chartPanel.setPreferredSize(new Dimension(800,800));
-        container.add(buttonsPanel,BorderLayout.SOUTH);
+        container.add(cp);
+
         tabbedPane.setVisible(true);
 
 
          JButton pdfButton = new JButton("ΕΚΤΥΠΩΣΗ ΣΤΑΤΙΣΤΙΚΩΝ");
 
-         buttonsPanel.add(pdfButton);
+        buttonsPanel.add(pdfButton);
 
          JButton closeButton = new JButton("Close");
 
          buttonsPanel.add(closeButton);
-
+         add(buttonsPanel,BorderLayout.PAGE_END);
          closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removePanel();
-            }
-        });
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 removePanel();
+             }
+         });
 
 
          pdfButton.addActionListener(new ActionListener() {

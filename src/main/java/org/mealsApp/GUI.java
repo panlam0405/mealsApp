@@ -88,8 +88,9 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ektypwshStatistikwn jf = new ektypwshStatistikwn(tabbedPane);
-                jf.openStatisticsChart();
+                ektypwshStatistikwn es = new ektypwshStatistikwn(tabbedPane);
+                tabbedPane.add("Στατιστικά Αναζητήσεων", es);
+                es.openStatisticsChart();
             }
         });
 
