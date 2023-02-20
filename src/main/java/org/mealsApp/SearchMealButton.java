@@ -66,6 +66,8 @@ public class SearchMealButton extends JPanel {
         setLayout(null);//using no layout managers
         setVisible(true);//making the frame visible
 
+
+
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

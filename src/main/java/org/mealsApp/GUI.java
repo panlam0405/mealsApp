@@ -1,10 +1,24 @@
 package org.mealsApp;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DefaultPieDataset;
+
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
+import java.util.List;
 
 public class GUI extends JFrame {
     private JFrame frame;
@@ -67,7 +81,19 @@ public class GUI extends JFrame {
             }
         });
 
+
         JButton ektypwshStatistikwn = new JButton("Αναζήτηση Στατιστικών");//creating instance of JButton
+
+        ektypwshStatistikwn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                ektypwshStatistikwn jf = new ektypwshStatistikwn(tabbedPane);
+                jf.openStatisticsChart();
+            }
+        });
+
+
         JButton eksodos = new JButton("Εξοδος");//creating instance of JButton
         eksodos.addActionListener(new ActionListener() {
             @Override
@@ -97,6 +123,8 @@ public class GUI extends JFrame {
         ektypwshStatistikwn.setOpaque(false);
         ektypwshStatistikwn.setForeground(Color.white);
 
+
+
         eksodos.setBounds(0, 170, BUTTONWIDTH, BUTTONHEIGHT);
         eksodos.setFont(new Font("Arial", Font.PLAIN, 14));
         eksodos.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -108,7 +136,9 @@ public class GUI extends JFrame {
         panel1.add(anazitisiGeymatos);
         panel1.add(anazitisiKatigorias);
         panel1.add(ektypwshStatistikwn);
+
         panel1.add(eksodos);
+
         String str1 = "Make your ";
         String str2 = "meals ";
         String str3 = "come true!";

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Views")
-@NamedQueries({
-
+@NamedQueries(value = {
+        @NamedQuery(name = "Views.findAll", query = "SELECT v FROM Views v"),
         @NamedQuery(name = "Views.findByMeal", query = "SELECT v FROM Views v WHERE v.meal = :meal")
 })
 
