@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,8 @@ import java.util.Map;
 public class SearchMealButton extends JPanel {
     private JPanel jp;
     private JTabbedPane tabbedPane;
-    private JTextArea mealText;
+    private JEditorPane mealText;
+    private JScrollPane scroll;
     private JButton Save;
     private JButton Modify;
     private JButton Delete;
@@ -55,17 +57,16 @@ public class SearchMealButton extends JPanel {
         });
 
         add(tf);
-        tf.setBounds(250, 50, 400, 30);
-        JButton submit = new JButton("Sumbit");
-        submit.setBounds(10, 100, 200, 30);
+        tf.setBounds(200, 50, 500, 30);
+        JButton submit = new JButton("Αναζήτηση");
+        submit.setBounds(200, 100, 200, 30);
         add(submit);
-        JButton cancel = new JButton("Cancel");
-        cancel.setBounds(740, 100, 200, 30);
+        JButton cancel = new JButton("Κλείσιμο");
+        cancel.setBounds(500, 100, 200, 30);
         add(cancel);
         setSize(700, 700);//400 width and 500 height
         setLayout(null);//using no layout managers
         setVisible(true);//making the frame visible
-
 
 
         submit.addActionListener(new ActionListener() {
@@ -83,28 +84,31 @@ public class SearchMealButton extends JPanel {
 //                check if meal is in Database
                 Meal meal = new Meal();
                 Meal existsInDb = meal.getDatafromDatabase(searchboxText);
-                System.out.println("87 " + existsInDb);
 
                 if (existsInDb == null) {
                     ApiCalls api = new ApiCalls();
                     JsonElement root = new JsonParser().parse(api.getMeal(searchboxText));
+                    JsonElement getFirstMealProps = root.getAsJsonObject().get("meals");
+                    if (!getFirstMealProps.isJsonNull()) {
+                        getFirstMealProps = getFirstMealProps.getAsJsonArray().get(0);
 
-                    JsonElement getFirstMealProps = root.getAsJsonObject().get("meals")
-                            .getAsJsonArray().get(0);
-
-                    mealName = getFirstMealProps
-                            .getAsJsonObject().get("strMeal")
-                            .getAsString();
+                        mealName = getFirstMealProps
+                                .getAsJsonObject().get("strMeal")
+                                .getAsString();
+                    }
 
                     if (root.getAsJsonObject().get("meals").isJsonNull() ||
                             (root.getAsJsonObject().get("meals")
                                     .getAsJsonArray().size() > 1) ||
                             !searchboxText.equals(mealName)) {
                         if (mealText == null) {
-                            mealText = new JTextArea();
-                            mealText.setBounds(10, 250, 900, 500);
-                            mealText.setLineWrap(true);
-                            add(mealText);
+                            mealText = new JEditorPane();
+                            mealText.setBounds(10, 250, 950, 500);
+//                            mealText.setLineWrap(true);
+                            mealText.setEditable(false);
+                            scroll = new JScrollPane(mealText);
+                            scroll.setBounds(10, 250, 950, 500);
+                            add(scroll);
                             mealText.setText("There in no search result with the given name. Please make a Newsearch");
                             mealText.updateUI();
                         } else {
@@ -125,10 +129,10 @@ public class SearchMealButton extends JPanel {
                                 .getAsJsonObject().get("strCategory")
                                 .getAsString();
 
-                        String text = "Name : \n%s\n\n".formatted(mealName) +
-                                "Category : \n%s\n\n".formatted(mealCategory) +
-                                "Area : \n%s\n\n".formatted(mealArea) +
-                                "Instructions :\n%s".formatted(mealInstructions);
+                        String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName) +
+                                "<b>Category :</b> <br>%s<br><br>".formatted(mealCategory) +
+                                "<b>Area :</b> <br>%s<br><br>".formatted(mealArea) +
+                                "<b>Instructions :</b><br>%s".formatted(mealInstructions).replaceAll("\\n","<br>");
 
                         try {
                             EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
@@ -145,17 +149,19 @@ public class SearchMealButton extends JPanel {
                             em.close();
                             emf.close();
                         } catch (NoResultException ex) {
-
                             Views newView = new Views();
                             newView.setDataBaseNewInsert(mealName);
                         }
 
 
                         if (mealText == null) {
-                            mealText = new JTextArea();
-                            mealText.setBounds(10, 250, 900, 500);
-                            mealText.setLineWrap(true);
-                            add(mealText);
+                            mealText = new JEditorPane("text/html", "");
+                            mealText.setBounds(10, 250, 950, 500);
+//                            mealText.setLineWrap(true);
+                            mealText.setEditable(false);
+                            scroll = new JScrollPane(mealText);
+                            scroll.setBounds(10, 250, 950, 500);
+                            add(scroll);
                             mealText.setText(text);
                             mealText.updateUI();
                         } else {
@@ -166,16 +172,27 @@ public class SearchMealButton extends JPanel {
                             Save.setBounds(100, 760, 150, 40);
                             add(Save);
 
+
                         }
                         if (Modify == null) {
                             Modify = new JButton("Επεξεργασία");
                             Modify.setBounds(500, 760, 150, 40);
                             add(Modify);
+
                         }
                         if (Delete == null) {
                             Delete = new JButton("Διαγραφή");
                             Delete.setBounds(700, 760, 150, 40);
                             add(Delete);
+                        }
+                        for( ActionListener all : Save.getActionListeners() ) {
+                            Save.removeActionListener( all );
+                        }
+                        for( ActionListener all : Modify.getActionListeners() ) {
+                            Modify.removeActionListener( all );
+                        }
+                        for( ActionListener all : Delete.getActionListeners() ) {
+                            Delete.removeActionListener( all );
                         }
                         Save.setEnabled(true);
                         Modify.setEnabled(false);
@@ -212,8 +229,8 @@ public class SearchMealButton extends JPanel {
                         Modify.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                new ModifyPopUpAndConfirmation(finalMealName,finalMealArea,
-                                        finalMealCategory,finalMealInstructions);
+                                new ModifyPopUpAndConfirmation(finalMealName, finalMealArea,
+                                        finalMealCategory, finalMealInstructions);
                             }
                         });
 
@@ -236,10 +253,10 @@ public class SearchMealButton extends JPanel {
                     mealCategory = existsInDb.getCategory();
                     mealInstructions = existsInDb.getInstructions();
 
-                    String text = "Name : \n%s\n\n".formatted(mealName) +
-                            "Category : \n%s\n\n".formatted(mealCategory) +
-                            "Area : \n%s\n\n".formatted(mealArea) +
-                            "Instructions :\n%s".formatted(mealInstructions);
+                    String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName) +
+                            "<b>Category :</b> <br>%s<br><br>".formatted(mealCategory) +
+                            "<b>Area :</b> <br>%s<br><br>".formatted(mealArea) +
+                            "<b>Instructions :</b><br>%s".formatted(mealInstructions).replaceAll("\\n","<br>");
                     try {
                         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
                         EntityManager em = emf.createEntityManager();
@@ -261,10 +278,13 @@ public class SearchMealButton extends JPanel {
                     }
 
                     if (mealText == null) {
-                        mealText = new JTextArea();
-                        mealText.setBounds(10, 250, 900, 500);
-                        mealText.setLineWrap(true);
-                        add(mealText);
+                        mealText = new JEditorPane("text/html", "");
+                        mealText.setBounds(10, 250, 950, 500);
+//                        mealText.setLineWrap(true);
+                        mealText.setEditable(false);
+                        scroll = new JScrollPane(mealText);
+                        scroll.setBounds(10, 250, 950, 500);
+                        add(scroll);
                         mealText.setText(text);
                         mealText.updateUI();
                     } else {
@@ -286,6 +306,15 @@ public class SearchMealButton extends JPanel {
                         Delete = new JButton("Διαγραφή");
                         Delete.setBounds(700, 760, 150, 40);
                         add(Delete);
+                    }
+                    for( ActionListener all : Save.getActionListeners() ) {
+                        Save.removeActionListener( all );
+                    }
+                    for( ActionListener all : Modify.getActionListeners() ) {
+                        Modify.removeActionListener( all );
+                    }
+                    for( ActionListener all : Delete.getActionListeners() ) {
+                        Delete.removeActionListener( all );
                     }
                     Save.setEnabled(false);
                     Modify.setEnabled(true);
@@ -314,19 +343,6 @@ public class SearchMealButton extends JPanel {
                     });
 
                 }
-
-
-//                    Map <String, String> DBDetails = new HashMap<>();
-//                    DBDetails.put("dbName",mealName);
-//                    DBDetails.put("dbArea",mealArea);
-//                    DBDetails.put("dbCategory",mealCategory);
-//                    DBDetails.put("dbInstructions",mealInstructions);
-
-
-//                αναζήτηση στη βάση με το όνομα για να ελέγξουμε αν υπάρχει και να μην προχωρήσουμε σε εγγραφή αλλά
-//                σε αύξηση του count
-//
-
             }
         });
 
@@ -338,6 +354,4 @@ public class SearchMealButton extends JPanel {
         });
 
     }
-
-
 }

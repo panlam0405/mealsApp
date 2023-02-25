@@ -108,7 +108,7 @@ public class ektypwshStatistikwn extends JPanel{
 
                      //Create OutputStream instance.
                      OutputStream outputStream =
-                             new FileOutputStream(new File("D:\\tf.pdf"));
+                             new FileOutputStream(new File(System.getProperty("user.dir")+"/file.pdf"));
 
                      //Create PDFWriter instance.
                      PdfWriter.getInstance(document, outputStream);

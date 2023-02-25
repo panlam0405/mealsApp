@@ -1,28 +1,21 @@
 package org.mealsApp;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.data.general.DefaultPieDataset;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.Path;
-import java.util.List;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
     private JFrame frame;
     private JTabbedPane tabbedPane;
+
     public GUI(String title) throws HeadlessException {
         super(title);
     }
@@ -50,7 +43,7 @@ public class GUI extends JFrame {
         tabbedPane.add("Meals Application", panel2);
         panel2.add(panel2bg);
         add(splitPane);
-        tabbedPane.setBackground(new Color(100, 100, 100,70));
+        tabbedPane.setBackground(new Color(100, 100, 100, 70));
 
         tabbedPane.setBorder(null);
         panel1.setBackground(new Color(83, 83, 83));
@@ -66,8 +59,10 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SearchMealButton jp = new SearchMealButton(tabbedPane);
-                tabbedPane.add("Αναζήτηση Γευμάτων",jp);
+                tabbedPane.add("Αναζήτηση Γευμάτων", jp);
                 jp.openSearchField();
+                tabbedPane.setSelectedComponent(jp);
+
             }
         });
 
@@ -75,9 +70,38 @@ public class GUI extends JFrame {
         anazitisiKatigorias.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SearchCategoriesButton jf = new SearchCategoriesButton(tabbedPane);
-                tabbedPane.add("Κατηγορίες Γευμάτων",jf);
+                ApiCalls api = new ApiCalls();
+                JsonElement root = new JsonParser().parse(api.showCategories());
+                ArrayList<String> categoriesArray = new ArrayList<String>();
+                if (root.isJsonObject()) {
+                    JsonArray mealsCategoriesArray = root.getAsJsonObject().get("meals").getAsJsonArray();
+                    for (int i = 0; i < mealsCategoriesArray.size(); i++) {
+                        if (mealsCategoriesArray.get(i).isJsonObject()) {
+                            JsonObject categoryObject = mealsCategoriesArray.get(i).getAsJsonObject();
+                            String category = categoryObject.get("strCategory").getAsString();
+                            categoriesArray.add(category);
+                        }
+                    }
+                }
+                System.out.println(categoriesArray);
+                String[] arrayCategories = new String[categoriesArray.size()];
+                for (int i = 0; i < categoriesArray.size(); i++) {
+                    arrayCategories[i] = categoriesArray.get(i);
+                }
+
+                String getMeals = (String) JOptionPane.showInputDialog(
+                        tabbedPane,
+                        "Επίλεξε μια κατηγορία",
+                        "Κατηγορίες Γευμάτων",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        arrayCategories,
+                        arrayCategories[0]);
+
+                SearchCategoriesButton jf = new SearchCategoriesButton(tabbedPane, getMeals);
+                tabbedPane.add(getMeals, jf);
                 jf.openCategoriesFrame();
+                tabbedPane.setSelectedComponent(jf);
             }
         });
 
@@ -87,10 +111,17 @@ public class GUI extends JFrame {
         ektypwshStatistikwn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int index = tabbedPane.indexOfTab("Στατιστικά Αναζητήσεων");
+                if (index != -1) {
+                    // Remove the tab if it exists
+                    tabbedPane.removeTabAt(index);
+                }
 
                 ektypwshStatistikwn es = new ektypwshStatistikwn(tabbedPane);
                 tabbedPane.add("Στατιστικά Αναζητήσεων", es);
                 es.openStatisticsChart();
+                tabbedPane.setSelectedComponent(es);
+
             }
         });
 
@@ -125,7 +156,6 @@ public class GUI extends JFrame {
         ektypwshStatistikwn.setForeground(Color.white);
 
 
-
         eksodos.setBounds(0, 170, BUTTONWIDTH, BUTTONHEIGHT);
         eksodos.setFont(new Font("Arial", Font.PLAIN, 14));
         eksodos.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -144,7 +174,7 @@ public class GUI extends JFrame {
         String str2 = "meals ";
         String str3 = "come true!";
 
-        JLabel panel1Content = new JLabel("<html><font color=white>" + str1 + "<B>" + str2 + "</B>" +str3 +"</font></html>  ", SwingConstants.CENTER);
+        JLabel panel1Content = new JLabel("<html><font color=white>" + str1 + "<B>" + str2 + "</B>" + str3 + "</font></html>  ", SwingConstants.CENTER);
         panel1Content.setBounds(0, 450, 400, 100);
         panel1Content.setFont(new Font("Serif", Font.PLAIN, 28));
         panel1Content.setVisible(true);

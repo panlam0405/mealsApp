@@ -8,7 +8,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Meal")
 @NamedQueries({
-        @NamedQuery(name = "Meal.findByMeal", query = "SELECT m FROM Meal m WHERE m.meal = :meal")
+        @NamedQuery(name = "Meal.findByMeal", query = "SELECT m FROM Meal m WHERE m.meal = :meal"),
+        @NamedQuery(name = "Meal.findById", query = "SELECT m FROM Meal m WHERE m.id = :id")
 
 })
 

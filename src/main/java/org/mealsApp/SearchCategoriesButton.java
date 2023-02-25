@@ -15,10 +15,11 @@ import java.util.ArrayList;
 
 public class SearchCategoriesButton extends JPanel {
     private JTabbedPane tabbedPane;
-    public SearchCategoriesButton(JTabbedPane tabbedPane) {
+    private String getMeals;
+    public SearchCategoriesButton(JTabbedPane tabbedPane,String getMeals) {
         this.tabbedPane = tabbedPane;
-        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(layout);
+        this.getMeals = getMeals;
+        setLayout(new BorderLayout());
         setBackground(new Color(83, 83, 83));
     }
     public void removePanel(){
@@ -26,44 +27,9 @@ public class SearchCategoriesButton extends JPanel {
     }
 
     public void openCategoriesFrame() {
-
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         ApiCalls api = new ApiCalls();
-        JsonElement root = new JsonParser().parse(api.showCategories());
-//        setSize(700, 700);//400 width and 500 height
-//        setLayout(null);//using no layout managers
-//        setVisible(true);//making the frame visible
-
-
-        ArrayList<String> categoriesArray = new ArrayList<String>();
-        if (root.isJsonObject()) {
-            JsonArray mealsCategoriesArray = root.getAsJsonObject().get("meals").getAsJsonArray();
-            for (int i = 0; i < mealsCategoriesArray.size(); i++) {
-                if (mealsCategoriesArray.get(i).isJsonObject()) {
-                    JsonObject categoryObject = mealsCategoriesArray.get(i).getAsJsonObject();
-                    String category = categoryObject.get("strCategory").getAsString();
-                    categoriesArray.add(category);
-                }
-            }
-        }
-        System.out.println(categoriesArray);
-        String[] arrayCategories = new String[categoriesArray.size()];
-        for (int i = 0; i < categoriesArray.size(); i++) {
-            arrayCategories[i] = categoriesArray.get(i);
-        }
-
-
-
-        String getMeals = (String) JOptionPane.showInputDialog(
-                this,
-                "Επίλεξε μια κατηγορία",
-                "Κατηγορίες Γευμάτων",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                arrayCategories,
-                arrayCategories[0]);
         if (getMeals != null) {
-            String text = "<html>Η κατηγορία %s Περιλαμβάνει τα παρακάτω γεύματα :<br> <br>".formatted(getMeals);
+            String text = "Η κατηγορία %s Περιλαμβάνει τα παρακάτω γεύματα : \n".formatted(getMeals);
             String JsonResponseOfcategorySelected = api.getCategory(getMeals);
             JsonElement newRootElement = new JsonParser().parse(JsonResponseOfcategorySelected);
             System.out.println(newRootElement.getAsJsonObject().get("meals"));
@@ -74,10 +40,7 @@ public class SearchCategoriesButton extends JPanel {
                     JsonArray mealArray = mealObject.getAsJsonArray();
                     for (int i = 0; i < mealArray.size(); i++) {
                         String meal = mealArray.get(i).getAsJsonObject().get("strMeal").getAsString();
-                        text += "Νο %s : %s<br>".formatted(i + 1, meal);
-                        if (mealArray.size() == i + 1) {
-                            text += "<br></html>";
-                        }
+                        text += "Νο %s : %s\n".formatted(i + 1, meal);
                     }
                 }
             }
@@ -93,18 +56,23 @@ public class SearchCategoriesButton extends JPanel {
 
             closeButton.setBounds(100, 850, 100, 30);
 
-            JLabel mealCategoriesLabel = new JLabel(text);
-            mealCategoriesLabel.setForeground(Color.white);
-            add(mealCategoriesLabel);
-            add(closeButton);
+            JTextArea mealCategoriesTextArea = new JTextArea(text);
+            JScrollPane scrollArea = new JScrollPane(mealCategoriesTextArea);
+            scrollArea.setSize(800,850);
+            mealCategoriesTextArea.setForeground(Color.black);
+            mealCategoriesTextArea.setEditable(false);
+            add(scrollArea,BorderLayout.CENTER);
+            scrollArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            add(closeButton,BorderLayout.PAGE_END);
 
 //        SelectedCategoryFrame.setSize(new Dimension(300,300));
 //        SelectedCategoryFrame.setLayout(new BorderLayout());
-
 
             setVisible(true);
         }else {
             removePanel();
         }
+        requestFocus();
+
     }
 }
