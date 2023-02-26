@@ -47,8 +47,9 @@ public class GUI extends JFrame {
 
         tabbedPane.setBorder(null);
         panel1.setBackground(new Color(83, 83, 83));
-        splitPane.setSize(new Dimension(1400, 850));
+        splitPane.setSize(new Dimension(1390, 850));
         panel1.setSize(new Dimension(400, 900));
+        panel2.setSize(new Dimension(1000, 900));
 
         splitPane.setOneTouchExpandable(false);
         splitPane.isVisible();
@@ -118,6 +119,7 @@ public class GUI extends JFrame {
                 }
 
                 ektypwshStatistikwn es = new ektypwshStatistikwn(tabbedPane);
+                es.setSize(1000,getHeight());
                 tabbedPane.add("Στατιστικά Αναζητήσεων", es);
                 es.openStatisticsChart();
                 tabbedPane.setSelectedComponent(es);

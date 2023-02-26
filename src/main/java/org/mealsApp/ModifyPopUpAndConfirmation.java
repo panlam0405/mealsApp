@@ -62,7 +62,7 @@ public class ModifyPopUpAndConfirmation extends JFrame {
                 TableColumnModel columnModel = jt.getColumnModel();
                 int columnCount = columnModel.getColumnCount();
 
-                String mealName= null;
+                String newMealName= null;
                 String mealArea = null;
                 String mealCategory = null;
                 String mealInstructions = null;
@@ -72,8 +72,7 @@ public class ModifyPopUpAndConfirmation extends JFrame {
                     String columnName = (String) col.getHeaderValue();
                     System.out.println("Column " + i + " name: " + columnName + ", value: " + jt.getValueAt(0,i));
                     if (columnName.equals("Name")){
-                        System.out.println(jt.getValueAt(0,i).toString()+"grammh 75 ");
-                        mealName = jt.getValueAt(0,i).toString();
+                        newMealName = jt.getValueAt(0,i).toString();
                     } else if (columnName.equals("Area")) {
                         mealArea = jt.getValueAt(0,i).toString();
                     }else if (columnName.equals("Category")){
@@ -83,7 +82,7 @@ public class ModifyPopUpAndConfirmation extends JFrame {
                     }
                 }
 
-                new ModifyConfirmation(mealName,mealArea,mealCategory,mealInstructions);
+                new ModifyConfirmation(newMealName,mealArea,mealCategory,mealInstructions,mealName);
             }
         });
 
