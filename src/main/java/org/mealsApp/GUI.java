@@ -12,8 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+//Δημιουργία γραφικού περιβάλλοντος κεντρικού παραθύρου εφαρμογής. Το παράθυρο αυτό θα καλέσει τα υπόλοιπα
+//Το GUI κάνει extend την κλάση JFrame
 public class GUI extends JFrame {
-    private JFrame frame;
+
+
     private JTabbedPane tabbedPane;
 
     public GUI(String title) throws HeadlessException {
@@ -21,41 +24,50 @@ public class GUI extends JFrame {
     }
 
 
+    //Ορισμός διαστάσεων παραθύρου
     private final int BUTTONWIDTH = 400;
     private final int BUTTONHEIGHT = 50;
 
+
+    //Δημιουργια panel του παραθύρου
     public void Simple() {
-//        close app on exit
+//       κλείνει η εφαρμογή με το κλείσιμο του παραθύρου
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(null);
-//        create two panels to fill the split image
+//      Δημιουργία δύο panel
         Panel panel1 = new Panel(null);
         Panel panel2 = new Panel(null);
-//      fill the split panel 2 with image
+//      Δημιουργία εικόνας τύπου JLabel
         JLabel panel2bg = new JLabel(new ImageIcon(System.getProperty("user.dir") + "/src/assets/mealsAppImg.jpg"));
-
+        //Ορισμός διαστάσεων του JLabel
         panel2bg.setSize(new Dimension(1000, 900));
         panel2bg.setVisible(true);
-//      set a tbbePanel as content to the split Panel
+//      Ορισμός ενός tabbedPane σαν περιεχόμενο του panel set a tbbePanel as content to the split Panel
         tabbedPane = new JTabbedPane();
-//      split panels content
+//      διαχωρισμός του περιεχομένου του panel split panels content
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel1, tabbedPane);
+        //Δημιουργία επικεφαλίδας tab Meals Application
         tabbedPane.add("Meals Application", panel2);
+        //Προσθήκη Jlabel στο panel2
         panel2.add(panel2bg);
         add(splitPane);
+        //Ορισμός χρώματος background του tabbedPane
         tabbedPane.setBackground(new Color(100, 100, 100, 70));
 
         tabbedPane.setBorder(null);
+        //Ορισμός χρωμάτος background panel1
         panel1.setBackground(new Color(83, 83, 83));
         splitPane.setSize(new Dimension(1390, 850));
+        //Ορισμός διαστάσεων panel1 και panel2
         panel1.setSize(new Dimension(400, 900));
         panel2.setSize(new Dimension(1000, 900));
-
+        
         splitPane.setOneTouchExpandable(false);
         splitPane.isVisible();
         splitPane.setEnabled(false);
+//      Δημιουργία αντικειμένου JButton για την αναζήτηση γεύματος creating instance of JButton
+        JButton anazitisiGeymatos = new JButton("Αναζήτηση Γευμάτων");
 
-        JButton anazitisiGeymatos = new JButton("Αναζήτηση Γευμάτων");//creating instance of JButton
         anazitisiGeymatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,7 +79,8 @@ public class GUI extends JFrame {
             }
         });
 
-        JButton anazitisiKatigorias = new JButton("Αναζήτηση Κατηγοριών");//creating instance of JButton
+//     Δημιουργία αντικειμένου JButton για την αναζήτηση κατηγοριών creating instance of JButton
+        JButton anazitisiKatigorias = new JButton("Αναζήτηση Κατηγοριών");
         anazitisiKatigorias.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
