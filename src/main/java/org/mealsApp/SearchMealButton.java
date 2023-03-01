@@ -100,17 +100,21 @@ public class SearchMealButton extends JPanel {
                                     .getAsJsonArray().size() > 1) ||
                             !searchboxText.equals(mealName)) {
                         if (mealText == null) {
-                            mealText = new JEditorPane();
-                            mealText.setBounds(10, 250, 950, 500);
+                            mealText = new JEditorPane("text/html", "");
+                            mealText.setBounds(10, 250, 940, 500);
 //                            mealText.setLineWrap(true);
                             mealText.setEditable(false);
                             scroll = new JScrollPane(mealText);
                             scroll.setBounds(10, 250, 950, 500);
                             add(scroll);
-                            mealText.setText("There in no search result with the given name. Please make a Newsearch");
+                            mealText.setText("<br><br><br>" +
+                                    "<div align='center'> <font size=\"5\" ><b>Δεν υπάρχει αναζήτηση που να αντιστοιχεί στο όνομα που δώσατε στο πεδίο.<br>" +
+                                    "Κάντε μία καινούρια αναζήτηση ή συμβουλευτείτε τις κατηγορίες γευμάτων στο Μενού της εφαρμογής.</b> </font></div>");
                             mealText.updateUI();
                         } else {
-                            mealText.setText("There in no search result with the given name. Please make a Newsearch");
+                            mealText.setText("<br><br><br>" +
+                                    "<div align='center'> <font size=\"5\" ><b>Δεν υπάρχει αναζήτηση που να αντιστοιχεί στο όνομα που δώσατε στο πεδίο.<br>" +
+                                    "Κάντε μία καινούρια αναζήτηση ή συμβουλευτείτε τις κατηγορίες γευμάτων στο Μενού της εφαρμογής.</b> </font></div>");
                         }
                     } else {
 
@@ -154,7 +158,7 @@ public class SearchMealButton extends JPanel {
 
                         if (mealText == null) {
                             mealText = new JEditorPane("text/html", "");
-                            mealText.setBounds(10, 250, 950, 500);
+                            mealText.setBounds(10, 250, 940, 500);
 //                            mealText.setLineWrap(true);
                             mealText.setEditable(false);
                             scroll = new JScrollPane(mealText);
@@ -277,7 +281,7 @@ public class SearchMealButton extends JPanel {
 
                     if (mealText == null) {
                         mealText = new JEditorPane("text/html", "");
-                        mealText.setBounds(10, 250, 950, 500);
+                        mealText.setBounds(10, 250, 940, 500);
 //                        mealText.setLineWrap(true);
                         mealText.setEditable(false);
                         scroll = new JScrollPane(mealText);
