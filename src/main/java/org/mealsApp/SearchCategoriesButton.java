@@ -3,15 +3,11 @@ package org.mealsApp;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class SearchCategoriesButton extends JPanel {
     private JTabbedPane tabbedPane;

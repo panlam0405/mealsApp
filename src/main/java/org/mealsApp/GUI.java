@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-//Δημιουργία γραφικού περιβάλλοντος κεντρικού παραθύρου εφαρμογής. Το παράθυρο αυτό θα καλέσει τα υπόλοιπα
+//Δημιουργία γραφικού περιβάλλοντος κεντρικού παραθύρου διαλόγου εφαρμογής. Το παράθυρο αυτό θα καλέσει τα υπόλοιπα
 //Το GUI κάνει extend την κλάση JFrame
 public class GUI extends JFrame {
 
@@ -61,12 +61,13 @@ public class GUI extends JFrame {
         //Ορισμός διαστάσεων panel1 και panel2
         panel1.setSize(new Dimension(400, 900));
         panel2.setSize(new Dimension(1000, 900));
-        
+
         splitPane.setOneTouchExpandable(false);
         splitPane.isVisible();
         splitPane.setEnabled(false);
 //      Δημιουργία αντικειμένου JButton για την αναζήτηση γεύματος creating instance of JButton
         JButton anazitisiGeymatos = new JButton("Αναζήτηση Γευμάτων");
+
 
         anazitisiGeymatos.addActionListener(new ActionListener() {
             @Override
@@ -119,6 +120,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Δημιουργία JButton εκτύπωσης στατιστικών
 
         JButton ektypwshStatistikwn = new JButton("Αναζήτηση Στατιστικών");//creating instance of JButton
 
@@ -141,6 +143,7 @@ public class GUI extends JFrame {
         });
 
 
+        //Δημιουργία JButton εξόδου
         JButton eksodos = new JButton("Εξοδος");//creating instance of JButton
         eksodos.addActionListener(new ActionListener() {
             @Override
@@ -148,6 +151,8 @@ public class GUI extends JFrame {
                 System.exit(0);
             }
         });
+
+        //Μορφοποίηση του κουμπιού anazitisiGeymatos
         anazitisiGeymatos.setBounds(0, 20, BUTTONWIDTH, BUTTONHEIGHT);
         anazitisiGeymatos.setFont(new Font("Arial", Font.PLAIN, 14));
         anazitisiGeymatos.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -155,6 +160,7 @@ public class GUI extends JFrame {
         anazitisiGeymatos.setOpaque(false);
         anazitisiGeymatos.setForeground(Color.white);
 
+        //Μορφοποίηση του κουμπιού anazitisiKatigorias
         anazitisiKatigorias.setBounds(0, 70, BUTTONWIDTH, BUTTONHEIGHT);
         anazitisiKatigorias.setFont(new Font("Arial", Font.PLAIN, 14));
         anazitisiKatigorias.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -162,7 +168,7 @@ public class GUI extends JFrame {
         anazitisiKatigorias.setOpaque(false);
         anazitisiKatigorias.setForeground(Color.white);
 
-
+        //Μορφοποίηση του κουμπιού ektypwshStatistikwn
         ektypwshStatistikwn.setBounds(0, 120, BUTTONWIDTH, BUTTONHEIGHT);
         ektypwshStatistikwn.setFont(new Font("Arial", Font.PLAIN, 14));
         ektypwshStatistikwn.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -170,7 +176,7 @@ public class GUI extends JFrame {
         ektypwshStatistikwn.setOpaque(false);
         ektypwshStatistikwn.setForeground(Color.white);
 
-
+        //Μορφοποίηση του κουμπιού eksodos
         eksodos.setBounds(0, 170, BUTTONWIDTH, BUTTONHEIGHT);
         eksodos.setFont(new Font("Arial", Font.PLAIN, 14));
         eksodos.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -178,13 +184,14 @@ public class GUI extends JFrame {
         eksodos.setOpaque(false);
         eksodos.setForeground(Color.white);
 
+        //Προσθήκη των κουμπιών στο panel1
         getContentPane().add(splitPane);
         panel1.add(anazitisiGeymatos);
         panel1.add(anazitisiKatigorias);
         panel1.add(ektypwshStatistikwn);
-
         panel1.add(eksodos);
 
+        //Δημιουργία και εισαγωγή moto εφαρμογής στο panel1
         String str1 = "Make your ";
         String str2 = "meals ";
         String str3 = "come true!";
@@ -196,7 +203,7 @@ public class GUI extends JFrame {
         panel1.add(panel1Content);
 
 
-//        pack();
+//      Μορφοποίηση του κεντρικού παραθύρου διαλόγου
         setSize(1400, 900);
         setResizable(false);
         setLayout(null);//using no layout managers
