@@ -25,7 +25,7 @@ public class ModifyConfirmation extends JOptionPane {
         this.mealInstructions = mealInstructions;
 
 
-        //Το ερώτημα να γραφεί στα ελληνικά
+        //Δημιουργία και μορφοποίηση του πλαισίου επιβεβαίωσης αλλαγών εγγραφής
         Object[] options = {"Ναι", "Όχι"};
         int result= JOptionPane.showOptionDialog(null,
                 "Θέλετε σίγουρα να οριστικοποιήσετε τις αλλαγές στο "+mealName+"?",
@@ -59,7 +59,7 @@ public class ModifyConfirmation extends JOptionPane {
             } catch (NoResultException ex) {
                 System.out.println("No result Found!");
             }
-            //Κλείσιμο του EntityManeger
+            //Κλείσιμο του EntityManager
             em.close();
             //Κλείσιμο του EntityManagerFactory
             emf.close();

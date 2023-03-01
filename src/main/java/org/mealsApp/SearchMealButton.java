@@ -1,10 +1,8 @@
 package org.mealsApp;
 
 import com.google.gson.JsonElement;
-
 import com.google.gson.JsonParser;
 import jakarta.persistence.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
+//Λειτουργικότητα του κουμπιού αναζήτησης γεύματος
 public class SearchMealButton extends JPanel {
-
+    //Δημιουργία πεδίων κλάσης
     private JTabbedPane tabbedPane;
     private JEditorPane mealText;
     private JScrollPane scroll;
@@ -22,24 +20,26 @@ public class SearchMealButton extends JPanel {
     private JButton Modify;
     private JButton Delete;
 
+    //Δημιουργία constructor. Δέχεται ως είσοδο μια καρτέλα
     public SearchMealButton(JTabbedPane tabbedPane) {
         this.tabbedPane = tabbedPane;
         setBackground(new Color(83, 83, 83));
     }
-
+    //Μέθοδος κλεισίματος καρτέλας
     public void removePanel() {
         tabbedPane.remove(this);
     }
-
+    //Μέθοδος δημιουργίας πεδίου αναζήτησης στην καρτέλα
     public void openSearchField() {
-
+        //Δημιουργία και μορφοποίηση πεδίου
         final TextField tf = new TextField();
         tf.setFont(new Font("Serif", Font.ITALIC, 16));
         tf.setForeground(new Color(100, 100, 100, 80));
-
+        //Αν το πεδίο είναι άδειο εμφανίζεται με το μήνυμα
         if (tf.getText().isEmpty() && !(FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == tf)) {
             tf.setText("Εδώ μπορείτε να αναζητήσετε το γεύμα της αρεσκείας σας");
         }
+        //Αν επιλέξει με το caret το πεδίο αναζήτησης εξαφανίζεται το μήνυμα
         tf.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -52,7 +52,7 @@ public class SearchMealButton extends JPanel {
                 }
             }
         });
-
+        //Μορφοποίηση του πεδίου αναζήτησης γεύματος
         add(tf);
         tf.setBounds(200, 50, 500, 30);
         JButton submit = new JButton("Αναζήτηση");
@@ -66,11 +66,12 @@ public class SearchMealButton extends JPanel {
         setVisible(true);//making the frame visible
 
 
+        //Λειτουργικότητα κουμπιού υποβολής αναζήτησης
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Αναζήτηση στη βάση για το συγκεκριμένο όνομα γεύματος που δόθηκε από τον Χρήστη
-//                και αν βρεθούν τα δεδομένα να φέρνουμε τα στοιχεία από την βάση αλλιώς
+//                και αν βρεθούν τα δεδομένα να φέρνουμε τα στοιχεία από τη βάση αλλιώς
 //                να γίνεται κλήση του API
 
                 String searchboxText = tf.getText();
@@ -78,10 +79,10 @@ public class SearchMealButton extends JPanel {
                 String mealArea = null;
                 String mealInstructions = null;
                 String mealCategory = null;
-//                check if meal is in Database
+//              Δημιουργία αντικειμένου Meal για την ανάκτηση γεύματος
                 Meal meal = new Meal();
                 Meal existsInDb = meal.getDatafromDatabase(searchboxText);
-
+                //Έλεγχος μη-ύπαρξης του γεύματος στη Βάση Δεδομένων
                 if (existsInDb == null) {
                     ApiCalls api = new ApiCalls();
                     JsonElement root = new JsonParser().parse(api.getMeal(searchboxText));

@@ -7,37 +7,45 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+//Κατασκευή παραθύρου τροποποίησης εγγραφής
 public class ModifyPopUpAndConfirmation extends JFrame {
-
+    //Ορισμός πεδίων της κλάσης. Το παράθυρο θα επιτρέπει την τροποποίηση των τεσσάρων χαρακτηριστικών του γεύματος
     private final String mealName;
     private final String area;
     private final String category;
     private final String instructions;
-
     private JFrame jf;
 
+    /*Όταν καλείται o constructor της κλάσης δημιουργείται ένα παράθυρο διαλόγου με τέσσερα πεδία τα οποία
+    αντιστοιχούν σε τέσσερις αλλαγές που μπορεί να κάνει ο χρήστης σε ένα αποθηκευμένο γεύμα. Ο Constructor
+    θα δέχεται τις αρχικές τιμές των τεσσάρων χαρακτηριστικών του εκάστοτε γεύματος και οι οποίες μπορούν
+    να τροποποιηθούν*/
     public ModifyPopUpAndConfirmation(String mealName,
                                       String area,
                                       String category,String instructions){
+        //αποθήκευση των χαρακτηριστικών του γεύματος στο αντίστοιχο πεδίο της κλάσης
         this.area=area;
         this.mealName = mealName;
         this.category = category;
         this.instructions =instructions;
-
-        jf = new JFrame("Επεξεργασία "+mealName);
+        //Δημιουργία του πλαισίου διαλόγου και μορφοποίηση
+        jf = new JFrame("Επεξεργασία γεύματος "+mealName);
         jf.setVisible(true);
         jf.setSize(1400,900);
         JPanel buttonPanel = new JPanel();
         jf.add(buttonPanel,BorderLayout.PAGE_END);
+        //Δημιουργία panel στο οποίο θα τοποθετηθεί ο πίνακα των στοιχειών του γεύματος κατά στήλες
         JPanel jp =new JPanel(new BorderLayout());
         jp.setBackground(new Color(83, 83, 83));
         jf.add(jp);
+        //Δημιουργία δισδιάστατου αντικειμένου για την αποθήκευση των δεδομένων του γεύματος
         Object data [][] ={{mealName, area, category, instructions}};
+        //Δημιουργία μονοδιάστατου πίνακα με τα ονόματα των στηλών του πίνακα που θα δημιουργηθεί
         String column [] ={"Name","Area","Category","Instructions"};
+        //Δημιουργία πίνακα και μορφοποίηση του
         JTable jt = new JTable(data,column);
         jt.setPreferredScrollableViewportSize(jt.getPreferredSize());
-        // set the column widths to fixed values
+        //Ορισμός του πλάτους των στηλών σε fixed τιμές
         jt.getColumnModel().getColumn(0).setPreferredWidth(100);
         jt.getColumnModel().getColumn(1).setPreferredWidth(100);
         jt.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -45,28 +53,29 @@ public class ModifyPopUpAndConfirmation extends JFrame {
 
         jt.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
 
-
+        //Δημιουργία scroll bar για τον πίνακα ώστε να μην κρύβεται τμήμα της συνταγής
         JScrollPane scrollPane = new JScrollPane(jt);
         jp.add(scrollPane,BorderLayout.CENTER);
         jt.setCellSelectionEnabled(true);
-//        Garides Saganaki
 
+        //Δημιουργία κουμπιού αποθήκευσης αλλαγών
         JButton Save = new JButton("Αποθήκευση");
-//        Save.setBounds(100,800,150,40);
+        //Δημιουργία κουμπιού ακύρωσης αποθήκευσης αλλαγών
         JButton Cancel = new JButton("Κλείσιμο");
-//        Cancel.setBounds(700,800,150,40);
 
+        //Λειτουργικότητα κουμπιού αποθήκευσης
         Save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TableColumnModel columnModel = jt.getColumnModel();
                 int columnCount = columnModel.getColumnCount();
-
+                //Δημιουργία μεταβλητών που χρησιμοποιούνται για την αποθήκευση των χαρακτηριστικών του γεύματος
                 String newMealName= null;
                 String mealArea = null;
                 String mealCategory = null;
                 String mealInstructions = null;
-
+                /*Επαναληπτική δομή η οποία περνάει όλα τα κελιά του πίνακα και αποθηκεύει τις τιμές αυτών στην
+                κατάλληλη μεταβλητή*/
                 for (int i = 0; i < columnCount; i++) {
                     TableColumn col = columnModel.getColumn(i);
                     String columnName = (String) col.getHeaderValue();
@@ -81,11 +90,12 @@ public class ModifyPopUpAndConfirmation extends JFrame {
                         mealInstructions = jt.getValueAt(0,i).toString();
                     }
                 }
-
+                //Το αντικείμενο αποθηκεύει τις καινούργιες των χαρακτηριστικών του γεύματος
                 new ModifyConfirmation(newMealName,mealArea,mealCategory,mealInstructions,mealName);
             }
         });
 
+        //Λειτουργικότητα κουμπιού ακύρωσης
         Cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,11 +103,13 @@ public class ModifyPopUpAndConfirmation extends JFrame {
             }
         });
 
-
+        //Προσθήκη κουμπιών στο panel
         buttonPanel.add(Save);
         buttonPanel.add(Cancel);
 
     }
+
+    //Πως να το γράψω? Με τη μέθοδο αυτή δίνεται η δυνατότητα στον χρήστη να κάνει αντιγραφή του ονόματος ενός γεύματος
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         private final JTextArea area;
 
@@ -119,14 +131,4 @@ public class ModifyPopUpAndConfirmation extends JFrame {
             return area;
         }
     }
-
-
-
-
-
-
-
-
-
-
 }
