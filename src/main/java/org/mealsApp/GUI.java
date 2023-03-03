@@ -24,6 +24,9 @@ public class GUI extends JFrame {
     }
 
 
+
+
+
     //Ορισμός διαστάσεων παραθύρου
     private final int BUTTONWIDTH = 400;
     private final int BUTTONHEIGHT = 50;
@@ -50,6 +53,7 @@ public class GUI extends JFrame {
         tabbedPane.add("Meals Application", panel2);
         //Προσθήκη Jlabel στο panel2
         panel2.add(panel2bg);
+//        Χωρισμός του frame σε δύο τμήματα
         add(splitPane);
         //Ορισμός χρώματος background του tabbedPane
         tabbedPane.setBackground(new Color(100, 100, 100, 70));
@@ -62,7 +66,7 @@ public class GUI extends JFrame {
         panel1.setSize(new Dimension(400, 900));
         panel2.setSize(new Dimension(1000, 900));
 
-        splitPane.setOneTouchExpandable(false);
+        splitPane.setOneTouchExpandable(false); // αποτροπή από το να αυξομειώνεται το μεγεθος του splitPane
         splitPane.isVisible();
         splitPane.setEnabled(false);
 //      Δημιουργία αντικειμένου JButton για την αναζήτηση γεύματος creating instance of JButton

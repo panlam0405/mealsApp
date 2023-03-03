@@ -3,6 +3,7 @@ package org.mealsApp;
 import jakarta.persistence.*;
 
 import javax.swing.*;
+
 //Κατασκευή παραθύρου διαλόγου με επέκταση του JOptionPane
 public class ModifyConfirmation extends JOptionPane {
     //Δημιουργία των χαρακτηριστικών των γευμάτων
@@ -42,12 +43,12 @@ public class ModifyConfirmation extends JOptionPane {
             EntityManager em = emf.createEntityManager();
             //Εκκίνηση συναλλαγών
             em.getTransaction().begin();
-            try {
+
                 //Δημιουργία query
                 Query selectMeal = em.createNamedQuery("Meal.findByMeal", Meal.class);
                 //Εισαγωγή παραμέτρου στην αναζήτηση
                 selectMeal.setParameter("meal", mealName);
-                //Αποθήκευση επιστρεφόμενων αποτελεσμάτων σε μεταβλητή Meal
+            try {   //Αποθήκευση επιστρεφόμενων αποτελεσμάτων σε μεταβλητή Meal
                 Meal m = (Meal) selectMeal.getSingleResult();
                 //Αλλαγή των πεδίων της εγγραφής με τα καινούργια
                 m.setMeal(newMealName);
@@ -56,7 +57,7 @@ public class ModifyConfirmation extends JOptionPane {
                 m.setInstructions(mealInstructions);
                 //Ολοκλήρωση συναλλαγής με τον πίνακα της Βάσης Δεδομένων
                 em.getTransaction().commit();
-            } catch (NoResultException ex) {
+            } catch (Exception ex ) {
                 System.out.println("No result Found!");
             }
             //Κλείσιμο του EntityManager

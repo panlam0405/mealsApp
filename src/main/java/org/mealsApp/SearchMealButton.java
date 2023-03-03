@@ -19,6 +19,7 @@ public class SearchMealButton extends JPanel {
     private JButton Save;
     private JButton Modify;
     private JButton Delete;
+    private ModifyPopUpAndConfirmation mod;
 
     //Δημιουργία constructor. Δέχεται ως είσοδο μια καρτέλα
     public SearchMealButton(JTabbedPane tabbedPane) {
@@ -74,8 +75,9 @@ public class SearchMealButton extends JPanel {
 //                και αν βρεθούν τα δεδομένα να φέρνουμε τα στοιχεία από τη βάση αλλιώς
 //                να γίνεται κλήση του API
 
+
                 String searchboxText = tf.getText();
-                String mealName = null;
+                final String[] mealName = {null};
                 String mealArea = null;
                 String mealInstructions = null;
                 String mealCategory = null;
@@ -90,7 +92,7 @@ public class SearchMealButton extends JPanel {
                     if (!getFirstMealProps.isJsonNull()) {
                         getFirstMealProps = getFirstMealProps.getAsJsonArray().get(0);
 
-                        mealName = getFirstMealProps
+                        mealName[0] = getFirstMealProps
                                 .getAsJsonObject().get("strMeal")
                                 .getAsString();
                     }
@@ -98,7 +100,7 @@ public class SearchMealButton extends JPanel {
                     if (root.getAsJsonObject().get("meals").isJsonNull() ||
                             (root.getAsJsonObject().get("meals")
                                     .getAsJsonArray().size() > 1) ||
-                            !searchboxText.equals(mealName)) {
+                            !searchboxText.equals(mealName[0])) {
                         if (mealText == null) {
                             mealText = new JEditorPane("text/html", "");
                             mealText.setBounds(10, 250, 940, 500);
@@ -131,7 +133,7 @@ public class SearchMealButton extends JPanel {
                                 .getAsJsonObject().get("strCategory")
                                 .getAsString();
 
-                        String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName) +
+                        String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName[0]) +
                                 "<b>Category :</b> <br>%s<br><br>".formatted(mealCategory) +
                                 "<b>Area :</b> <br>%s<br><br>".formatted(mealArea) +
                                 "<b>Instructions :</b><br>%s".formatted(mealInstructions).replaceAll("\\n","<br>");
@@ -141,7 +143,7 @@ public class SearchMealButton extends JPanel {
                             EntityManager em = emf.createEntityManager();
 
                             Query selectMeal = em.createNamedQuery("Views.findByMeal", Views.class);
-                            selectMeal.setParameter("meal", mealName);
+                            selectMeal.setParameter("meal", mealName[0]);
 
                             Views view = (Views) selectMeal.getSingleResult();
                             view.setViews(view.getViews() + 1);
@@ -152,7 +154,7 @@ public class SearchMealButton extends JPanel {
                             emf.close();
                         } catch (NoResultException ex) {
                             Views newView = new Views();
-                            newView.setDataBaseNewInsert(mealName);
+                            newView.setDataBaseNewInsert(mealName[0]);
                         }
 
 
@@ -201,7 +203,7 @@ public class SearchMealButton extends JPanel {
                         Delete.setEnabled(false);
 
 
-                        String finalMealName = mealName;
+                        String finalMealName = mealName[0];
                         String finalMealArea = mealArea;
                         String finalMealCategory = mealCategory;
                         String finalMealInstructions = mealInstructions;
@@ -231,8 +233,13 @@ public class SearchMealButton extends JPanel {
                         Modify.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                new ModifyPopUpAndConfirmation(finalMealName, finalMealArea,
-                                        finalMealCategory, finalMealInstructions);
+                                if(mod != null){
+                                    System.out.println(mod);
+                                    ModifyPopUpAndConfirmation.destroyInstance();
+                                }
+                                ModifyPopUpAndConfirmation mod =ModifyPopUpAndConfirmation.getInstance(finalMealName, finalMealArea, finalMealCategory, finalMealInstructions,mealText);
+
+                                mod.makeModifications();
                             }
                         });
 
@@ -250,12 +257,12 @@ public class SearchMealButton extends JPanel {
 
                 } else {
 
-                    mealName = existsInDb.getMeal();
+                    mealName[0] = existsInDb.getMeal();
                     mealArea = existsInDb.getArea();
                     mealCategory = existsInDb.getCategory();
                     mealInstructions = existsInDb.getInstructions();
 
-                    String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName) +
+                    String text = "<b>Name :</b> <br>%s<br><br>".formatted(mealName[0]) +
                             "<b>Category :</b> <br>%s<br><br>".formatted(mealCategory) +
                             "<b>Area :</b> <br>%s<br><br>".formatted(mealArea) +
                             "<b>Instructions :</b><br>%s".formatted(mealInstructions).replaceAll("\\n","<br>");
@@ -264,7 +271,7 @@ public class SearchMealButton extends JPanel {
                         EntityManager em = emf.createEntityManager();
 
                         Query selectMeal = em.createNamedQuery("Views.findByMeal", Views.class);
-                        selectMeal.setParameter("meal", mealName);
+                        selectMeal.setParameter("meal", mealName[0]);
 
                         Views view = (Views) selectMeal.getSingleResult();
                         view.setViews(view.getViews() + 1);
@@ -276,7 +283,7 @@ public class SearchMealButton extends JPanel {
                     } catch (NoResultException ex) {
 
                         Views newView = new Views();
-                        newView.setDataBaseNewInsert(mealName);
+                        newView.setDataBaseNewInsert(mealName[0]);
                     }
 
                     if (mealText == null) {
@@ -326,14 +333,20 @@ public class SearchMealButton extends JPanel {
                     Save.updateUI();
                     Modify.updateUI();
 
-                    String finalMealName1 = mealName;
+                    String finalMealName1 = mealName[0];
                     String finalMealArea1 = mealArea;
                     String finalMealInstructions1 = mealInstructions;
                     String finalMealCategory1 = mealCategory;
                     Modify.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            new ModifyPopUpAndConfirmation(finalMealName1, finalMealArea1, finalMealCategory1, finalMealInstructions1);
+                            if (mod != null){
+                                System.out.println(mod);
+                                ModifyPopUpAndConfirmation.destroyInstance();
+                            }
+                            mod = ModifyPopUpAndConfirmation.getInstance(finalMealName1, finalMealArea1, finalMealCategory1, finalMealInstructions1,mealText);
+                            mod.makeModifications();
+
                         }
                     });
 

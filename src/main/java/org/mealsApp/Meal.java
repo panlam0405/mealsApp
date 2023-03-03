@@ -24,7 +24,7 @@ public class Meal implements Serializable {
     @SequenceGenerator(name = "my_seq_gen", sequenceName = "my_sequence", allocationSize = 1)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "MEAL")
+    @Column(name = "MEAL", unique = true)
     private String meal;
     @Column(name = "CATEGORY")
     private String category;
@@ -113,7 +113,7 @@ public class Meal implements Serializable {
             emf.close();
             //Επιστροφή ανακτηθέντων δεδομένων.
             return meal;
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             return null;
         }
     }
