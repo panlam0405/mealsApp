@@ -1,10 +1,12 @@
 package org.mealsApp;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.URI;
 
 
 //Δημιουργία class ApiCalls για την κλήση του API της ιστοσελίδας https://www.themealdb.com
@@ -18,7 +20,10 @@ public class ApiCalls {
         //να διαχειριζόμαστε τα ΗTTP connections.
         OkHttpClient client = new OkHttpClient();
         //Δημιουργία ενός HTTP request χρησιμοποιώντας την class Request από την βιβλιοθήκη OkHttp.
-        Request request = new Request.Builder().url(url).build();
+        System.out.println(url);
+
+        String newUrl = url.replaceAll("&","%26");
+        Request request = new Request.Builder().url(newUrl).build();
         //Δημιουργούμε string στο οποίο θα αποθηκευτούν τα επιστρεφόμενα δεδομένα
         String jsonString = null;
 

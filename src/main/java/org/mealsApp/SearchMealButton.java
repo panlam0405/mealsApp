@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 //Λειτουργικότητα του κουμπιού αναζήτησης γεύματος
 public class SearchMealButton extends JPanel {
     //Δημιουργία πεδίων κλάσης
-    private JTabbedPane tabbedPane;
+    private final JTabbedPane tabbedPane;
     private JEditorPane mealText;
     private JScrollPane scroll;
     private JButton Save;
@@ -62,9 +62,11 @@ public class SearchMealButton extends JPanel {
         JButton cancel = new JButton("Κλείσιμο");
         cancel.setBounds(500, 100, 200, 30);
         add(cancel);
-        setSize(700, 700);//400 width and 500 height
-        setLayout(null);//using no layout managers
-        setVisible(true);//making the frame visible
+        setSize(700, 700);
+//        χωρίς layout manager
+        setLayout(null);
+        // οπτικοποίηση του frame
+        setVisible(true);
 
 
         //Λειτουργικότητα κουμπιού υποβολής αναζήτησης
@@ -78,9 +80,9 @@ public class SearchMealButton extends JPanel {
 
                 String searchboxText = tf.getText();
                 final String[] mealName = {null};
-                String mealArea = null;
-                String mealInstructions = null;
-                String mealCategory = null;
+                String mealArea ;
+                String mealInstructions ;
+                String mealCategory ;
 //              Δημιουργία αντικειμένου Meal για την ανάκτηση γεύματος
                 Meal meal = new Meal();
                 Meal existsInDb = meal.getDatafromDatabase(searchboxText);
