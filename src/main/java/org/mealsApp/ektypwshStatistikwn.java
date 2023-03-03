@@ -157,7 +157,7 @@ public class ektypwshStatistikwn extends JPanel {
                     PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
                     //προσθήκη αριθμών στο τέλος των σελίδων
-                    Footer event = new Footer();
+                    CustomHeaderAndFooter event = new CustomHeaderAndFooter();
                     writer.setPageEvent(event);
 
                     //Άνοιγμα του Document

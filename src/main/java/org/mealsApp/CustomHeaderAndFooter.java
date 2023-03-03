@@ -9,13 +9,13 @@ import java.util.Date;
 
 
 //Δημιουργία κλάσης για τη μορφοποίηση του pdf. Επεκτείνει την κλάση PdfPageEventHelper
-public class Footer extends PdfPageEventHelper{
+public class CustomHeaderAndFooter extends PdfPageEventHelper{
 
     //Δημιουργία πεδίου για το τύπο γραμματοσειράς
     private Font footerFont;
 
     //Δημιουργία construtor
-    public Footer() throws IOException, DocumentException {
+    public CustomHeaderAndFooter() throws IOException, DocumentException {
         footerFont = new Font(BaseFont.createFont(), 10, Font.NORMAL, BaseColor.BLACK);
     }
 
