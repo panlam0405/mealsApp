@@ -22,6 +22,8 @@ public class ModifyPopUpAndConfirmation extends JFrame {
     αντιστοιχούν σε τέσσερις αλλαγές που μπορεί να κάνει ο χρήστης σε ένα αποθηκευμένο γεύμα. Ο Constructor
     θα δέχεται τις αρχικές τιμές των τεσσάρων χαρακτηριστικών του εκάστοτε γεύματος και οι οποίες μπορούν
     να τροποποιηθούν*/
+
+    //    δημιουργία Singleton κλάσεις ώστε σε περίπτωση τροποποίησης των πεδίων να μη δημιουργείται καινούριο instance της
     private ModifyPopUpAndConfirmation(String mealName,
                                        String area,
                                        String category, String instructions,JEditorPane mealText) {
@@ -33,6 +35,7 @@ public class ModifyPopUpAndConfirmation extends JFrame {
         this.mealText=mealText;
     }
 
+    //μέθοδος που επιστρέφει το instance
     public static ModifyPopUpAndConfirmation getInstance(String mealName,
                                                          String area,
                                                          String category, String instructions,JEditorPane mealText) {
@@ -136,6 +139,8 @@ public class ModifyPopUpAndConfirmation extends JFrame {
 
 
     }
+
+    //    μέθοδος που διαγράφει το instance της κλάσης ώστε να μπορεί να δημιουργείται καινούριο κάθε φορά που γίνεται μια νέα αναζήτση γεύματος
     public static void destroyInstance() {
         instance = null;
     }
