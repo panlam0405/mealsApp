@@ -24,7 +24,7 @@ public class Meal implements Serializable {
     @SequenceGenerator(name = "my_seq_gen", sequenceName = "my_sequence", allocationSize = 1)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "MEAL", unique = true)
+    @Column(name = "MEAL")
     private String meal;
     @Column(name = "CATEGORY")
     private String category;
