@@ -20,9 +20,13 @@ public class SearchMealButton extends JPanel {
     private JButton Modify;
     private JButton Delete;
     private ModifyPopUpAndConfirmation mod;
+    private String mealnameToDelete;
+
+    private SearchMealButton self;
 
     //Δημιουργία constructor. Δέχεται ως είσοδο μια καρτέλα
     public SearchMealButton(JTabbedPane tabbedPane) {
+        this.self = this;
         this.tabbedPane = tabbedPane;
         setBackground(new Color(83, 83, 83,70));
     }
@@ -261,7 +265,7 @@ public class SearchMealButton extends JPanel {
                                     ModifyPopUpAndConfirmation.destroyInstance();
                                 }
 //                                ανοιγμα παραθύρου για την τροποίηση των στοιχείων που λάβαμε από το Api και αποθήκευση στη Βάση δεδομένων.
-                                ModifyPopUpAndConfirmation mod =ModifyPopUpAndConfirmation.getInstance(finalMealName, finalMealArea, finalMealCategory, finalMealInstructions,mealText);
+                                mod =ModifyPopUpAndConfirmation.getInstance(finalMealName, finalMealArea, finalMealCategory, finalMealInstructions,mealText,self);
                                 mod.makeModifications();
                             }
                         });
@@ -269,7 +273,8 @@ public class SearchMealButton extends JPanel {
                         Delete.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                new DeletePopUpQuestion(finalMealName);
+                                DeletePopUpQuestion dl = new DeletePopUpQuestion(mealnameToDelete);
+                                dl.showConfirmDialog();
                             }
                         });
 
@@ -367,7 +372,7 @@ public class SearchMealButton extends JPanel {
                                 System.out.println(mod);
                                 ModifyPopUpAndConfirmation.destroyInstance();
                             }
-                            mod = ModifyPopUpAndConfirmation.getInstance(finalMealName1, finalMealArea1, finalMealCategory1, finalMealInstructions1,mealText);
+                            mod = ModifyPopUpAndConfirmation.getInstance(finalMealName1, finalMealArea1, finalMealCategory1, finalMealInstructions1,mealText,self);
                             mod.makeModifications();
 
                         }
@@ -376,13 +381,16 @@ public class SearchMealButton extends JPanel {
                     Delete.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            new DeletePopUpQuestion(finalMealName1);
+                            DeletePopUpQuestion dl = new DeletePopUpQuestion(mealnameToDelete);
+                            dl.showConfirmDialog();
                         }
                     });
 
                 }
             }
         });
+
+
 //listener για κλείσιμο της καρτέλας
         cancel.addActionListener(new ActionListener() {
             @Override
@@ -391,5 +399,8 @@ public class SearchMealButton extends JPanel {
             }
         });
 
+    }
+    public void getMealName(String mealNameToDel){
+        mealnameToDelete = mealNameToDel;
     }
 }

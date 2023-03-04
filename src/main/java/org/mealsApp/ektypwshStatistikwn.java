@@ -120,10 +120,14 @@ public class ektypwshStatistikwn extends JPanel {
 
         //Δημιουργία κουμπιού εκτύπωσης δεδομένων
         JButton pdfButton = new JButton("Εκτύπωση Στατιστικών (pdf)");
+        pdfButton.setBackground(new Color(16, 75, 196, 197));
+        pdfButton.setForeground(new Color(255, 255, 255));
         //Προσθήκη του κουμπιού
         buttonsPanel.add(pdfButton);
         //Δημιουργία κουμπιού εξόδου
         JButton closeButton = new JButton("Κλείσιμο");
+        closeButton.setBackground(new Color(224, 67, 54, 197));
+        closeButton.setForeground(new Color(255, 255, 255));
         //Προσθήκη κουμπιού εξόδου
         buttonsPanel.add(closeButton);
         add(buttonsPanel, BorderLayout.PAGE_END);

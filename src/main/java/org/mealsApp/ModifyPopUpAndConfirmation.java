@@ -14,9 +14,10 @@ public class ModifyPopUpAndConfirmation extends JFrame {
     private String area;
     private String category;
     private String instructions;
+    private SearchMealButton self;
     private JFrame jf;
     private static ModifyPopUpAndConfirmation instance;
-    private JEditorPane mealText;
+    private final JEditorPane mealText;
 
     /*Όταν καλείται o constructor της κλάσης δημιουργείται ένα παράθυρο διαλόγου με τέσσερα πεδία τα οποία
     αντιστοιχούν σε τέσσερις αλλαγές που μπορεί να κάνει ο χρήστης σε ένα αποθηκευμένο γεύμα. Ο Constructor
@@ -26,23 +27,24 @@ public class ModifyPopUpAndConfirmation extends JFrame {
     //    δημιουργία Singleton κλάσεις ώστε σε περίπτωση τροποποίησης των πεδίων να μη δημιουργείται καινούριο instance της
     private ModifyPopUpAndConfirmation(String mealName,
                                        String area,
-                                       String category, String instructions,JEditorPane mealText) {
+                                       String category, String instructions,JEditorPane mealText,SearchMealButton self) {
         //αποθήκευση των χαρακτηριστικών του γεύματος στο αντίστοιχο πεδίο της κλάσης
         this.area = area;
         this.mealName = mealName;
         this.category = category;
         this.instructions = instructions;
         this.mealText=mealText;
+        this.self=self;
     }
 
     //μέθοδος που επιστρέφει το instance
     public static ModifyPopUpAndConfirmation getInstance(String mealName,
                                                          String area,
-                                                         String category, String instructions,JEditorPane mealText) {
+                                                         String category, String instructions,JEditorPane mealText,SearchMealButton self) {
         if (instance == null) {
             instance = new ModifyPopUpAndConfirmation(mealName,
                     area,
-                    category, instructions, mealText);
+                    category, instructions, mealText,self);
         }
         return instance;
     }
@@ -80,8 +82,12 @@ public class ModifyPopUpAndConfirmation extends JFrame {
 
         //Δημιουργία κουμπιού αποθήκευσης αλλαγών
         JButton Save = new JButton("Αποθήκευση");
+        Save.setBackground(new Color(4, 170, 109, 197));
+        Save.setForeground(new Color(255, 255, 255));
         //Δημιουργία κουμπιού ακύρωσης αποθήκευσης αλλαγών
         JButton Cancel = new JButton("Κλείσιμο");
+        Cancel.setBackground(new Color(224, 67, 54, 197));
+        Cancel.setForeground(new Color(255, 255, 255));
 
         //Λειτουργικότητα κουμπιού αποθήκευσης
         Save.addActionListener(new ActionListener() {
@@ -121,6 +127,7 @@ public class ModifyPopUpAndConfirmation extends JFrame {
                         "<b>Area :</b> <br>%s<br><br>".formatted(area) +
                         "<b>Instructions :</b><br>%s".formatted(instructions).replaceAll("\\n","<br>");
                 mealText.setText(text);
+                self.getMealName(newMealName);
             }
         });
 
