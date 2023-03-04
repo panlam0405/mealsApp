@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //Λειτουργικότητα του κουμπιού αναζήτησης κατηγορίας
 public class SearchCategoriesButton extends JPanel {
-    //Ορισμός πεδίων κλάσης
+    //Ορισμός ιδιοτήτων κλάσης
     private JTabbedPane tabbedPane;
     private String getMeals;
     //Δημιουργία constructor
@@ -18,7 +18,7 @@ public class SearchCategoriesButton extends JPanel {
         this.tabbedPane = tabbedPane;
         this.getMeals = getMeals;
         setLayout(new BorderLayout());
-        setBackground(new Color(83, 83, 83));
+        setBackground(new Color(83, 83, 83,120));
     }
     //Μέθοδος κλείσιμο καρτέλας αναζήτηση γεύματος ανά κατηγορία
     public void removePanel(){
@@ -60,7 +60,9 @@ public class SearchCategoriesButton extends JPanel {
             });
             //Μορφοποίηση κουμπιού κλεισίματος
             closeButton.setBounds(100, 850, 100, 30);
-
+            closeButton.setBackground(new Color(224, 67, 54, 197));
+            closeButton.setForeground(new Color(255, 255, 255));
+//            μορφοποίηση του χώρου παρουσίασεις των αποτελεσμάων που έρχονται από το Api με την λίστα των γευμάτων από τις κατηγορίες.
             JEditorPane mealCategoriesTextArea = new JEditorPane("text/html", text);
             JScrollPane scrollArea = new JScrollPane(mealCategoriesTextArea);
             scrollArea.setSize(800, 850);
