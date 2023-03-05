@@ -24,7 +24,7 @@ public class GUI extends JFrame {
     }
 
 
-    //Ορισμός διαστάσεων κουμπιών διαχείρησης
+    //Ορισμός διαστάσεων κουμπιών διαχείρισης
     private final int BUTTONWIDTH = 400;
     private final int BUTTONHEIGHT = 50;
 
@@ -53,7 +53,7 @@ public class GUI extends JFrame {
 //        Χωρισμός του frame σε δύο τμήματα
         add(splitPane);
         //Ορισμός χρώματος background του tabbedPane
-        tabbedPane.setBackground(new Color(100, 100, 100, 70));
+        tabbedPane.setBackground(new Color(100, 100, 100, 120));
 
         tabbedPane.setBorder(null);
         //Ορισμός χρωμάτος background panel1
@@ -291,7 +291,6 @@ public class GUI extends JFrame {
 
 //εισαγωγή logo στο πανελ
         ImageIcon logo = new ImageIcon(System.getProperty("user.dir") + "/src/assets/logo.png");
-        System.out.println(logo);
         JLabel panel1Content = new JLabel(logo);
 
 //        panel1Content.setIcon(imgThisImg);
