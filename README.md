@@ -20,7 +20,7 @@
 
 - [Μακαρονόπουλος Αλέξανδρος](https://github.com/alllemak)
 
-- [Παπανικολάου Νικόλαος](https://github.com/nikolas-papageorgiou)
+- [Παπαγεωργίου Νικόλαος](https://github.com/nikolas-papageorgiou)
 
   
 
