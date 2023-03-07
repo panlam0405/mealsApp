@@ -129,7 +129,11 @@ public class GUI extends JFrame {
                 SearchCategoriesButton jf = new SearchCategoriesButton(tabbedPane, getMeals);
                 tabbedPane.add(getMeals, jf);
                 jf.openCategoriesFrame();
-                tabbedPane.setSelectedComponent(jf);
+                try {
+                    tabbedPane.setSelectedComponent(jf);
+                }catch (IllegalArgumentException il){
+                    System.out.println(il);
+                }
             }
         });
 

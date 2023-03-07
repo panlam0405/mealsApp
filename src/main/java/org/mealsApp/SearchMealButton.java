@@ -90,6 +90,7 @@ public class SearchMealButton extends JPanel {
 
 
                 String searchboxText = tf.getText().trim();
+                mealnameToDelete =searchboxText;
                 final String[] mealName = {null};
                 String mealArea ;
                 String mealInstructions ;
@@ -244,6 +245,7 @@ public class SearchMealButton extends JPanel {
                                 meal.setArea(finalMealArea);
                                 meal.setCategory(finalMealCategory);
                                 meal.setInstructions(finalMealInstructions);
+                                mealnameToDelete=finalMealName;
 
                                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
                                 EntityManager em = emf.createEntityManager();
